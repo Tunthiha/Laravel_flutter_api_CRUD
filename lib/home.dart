@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:rest_test/edit.dart';
 import 'package:rest_test/services/services.dart';
 import 'package:rest_test/models/type.dart';
 
@@ -23,6 +24,10 @@ class _homeState extends State<home> {
   void initState() {
     super.initState();
     _loading = true;
+    getType();
+  }
+
+  getType() {
     Services.getTypes().then((types) {
       _types = types;
       setState(() {
@@ -38,11 +43,13 @@ class _homeState extends State<home> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) => createType(),
-          ),
-        ),
+        onPressed: () => Navigator.of(context)
+            .push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => createType(),
+              ),
+            )
+            .then((value) => getType()),
       ),
       body: Container(
         color: Colors.white,
@@ -51,6 +58,17 @@ class _homeState extends State<home> {
             itemBuilder: (context, index) {
               TypeElement typelist = _types[index];
               return ListTile(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => edit_Type(
+                            onetype: typelist,
+                          ),
+                        ),
+                      )
+                      .then((value) => {_loading = false, getType()});
+                },
                 title: Text(typelist.type.toString()),
               );
             }),

@@ -29,13 +29,13 @@ class Type {
 
 class TypeElement {
   TypeElement({
-    this.id,
+    required this.id,
     this.type,
     this.createdAt,
     this.updatedAt,
   });
 
-  int? id;
+  int id;
   String? type;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -54,5 +54,5 @@ class TypeElement {
         "updated_at": updatedAt?.toIso8601String(),
       };
   @override
-  toString() => 'type: $type' ',' 'created_at:$createdAt';
+  toString() => 'type: $type' ',' 'created_at:$createdAt' ',' 'id:$id';
 }

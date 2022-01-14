@@ -17,7 +17,7 @@ Future<Type> submitType(String type) async {
       body: {"type": type});
   final data = json.decode(response.body);
 
-  print(data);
+  //debugPrint(data);
   if (response.statusCode == 200) {
     return Type.fromJson(data);
   } else {
